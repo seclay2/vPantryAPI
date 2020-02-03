@@ -5,9 +5,20 @@ const router = express.Router();
 const ItemService = require('../database/services/item');
 
 router.post('/', async (req, res) => {
-    const newItem = req.body;
-    await ItemService.createItem(newItem);
-    res.send({ message: 'New item created.' });
+    try {
+        const newItem = req.body;
+        console.log(req.body);
+        await ItemService.createItem(newItem);
+        res.status(201).send({ message: 'New item created.' });
+    } catch(err) {
+        console.log(err);
+        if (err.name.equals(MongoError)){
+            if (err.code == 11000) {
+                res.status().send("");
+            }
+        }
+    }
+
 });
 
 router.get('/', async (req, res) => {

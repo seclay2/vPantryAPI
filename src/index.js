@@ -18,6 +18,11 @@ app.use(morgan('combined'));    // log HTTP requests
 const checkJwt = require('./auth');
 app.use(checkJwt);
 
+//auth test
+app.get('/authorized', function (req, res) {
+    res.send('Secured Resource');
+});
+
 // endpoints
 // users
 const UserRoutes = require('./routes/user');

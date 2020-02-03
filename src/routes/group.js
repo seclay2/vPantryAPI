@@ -7,7 +7,7 @@ const GroupService = require('../database/services/group');
 router.post('/', async (req, res) => {
     const newGroup = req.body;
     await GroupService.createGroup(newGroup);
-    res.send({ message: 'New group created.' });
+    res.status(201).send({ message: 'New group created.' });
 });
 
 router.get('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     await GroupService.deleteGroup(req.params.id);
-    res.send({ message: 'Group deleted.' });
+    res.status(204).send({ message: 'Group deleted.' });
 });
 
 router.put('/:id', async (req, res) => {

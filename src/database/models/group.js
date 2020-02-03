@@ -6,10 +6,6 @@ let GroupSchema = new Schema({
         type: String,
         required: true
     },
-    creationDate: {
-        type: Date,
-        default: Date.now()
-    },
     administrators: [{
         type: mongoose.Types.ObjectId,
         ref: 'User',
@@ -19,6 +15,6 @@ let GroupSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }]
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Group', GroupSchema);
