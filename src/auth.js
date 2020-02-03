@@ -8,12 +8,12 @@ const checkJwt = jwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: 'https://dev-8ojrwnwz.auth0.com/.well-known/jwks.json'
+        jwksUri: 'https://vpantry-dev.auth0.com/.well-known/jwks.json'
     }),
 
     // Validate the audience and the issuer.
     audience: 'https://vpantryapi/',
-    issuer: 'https://dev-8ojrwnwz.auth0.com/',
+    issuer: 'https://vpantry-dev.auth0.com/',
     algorithms: ['RS256']
 });
 
