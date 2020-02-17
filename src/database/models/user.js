@@ -26,7 +26,7 @@ let UserSchema = new Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Group',
         required: true,
-        default: '000000000000000000000000'
+        default: mongoose.Types.ObjectId.NaN
     }
 }, { timestamps: true });
 
