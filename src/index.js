@@ -32,7 +32,7 @@ const { startDatabase } = require('./database/mongo')
 
 startDatabase().then(async () => {
     // start the server
-    app.listen(3001, async () => {
-        console.log('listening on port 3001')
+    app.listen(8080, async () => {
+        console.log('listening on port 8080')
     })
 })
