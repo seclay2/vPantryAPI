@@ -66,10 +66,15 @@ router.post('/signin', async(req, res) => {
 	UserService.signIn(req.body.email, req.body.password, function(result, email, _id){
 		console.log("_id = " + _id)
 		if(result){
-			var token = jwt.sign({
-				email: email, _id : _id
-			}, process.env.SECRET_KEY, { expiresIn: 86400 })
-			res.json({ success: true, token: token })
+			try{
+				var token = jwt.sign({
+					email: email, _id : _id
+				}, process.env.SECRET_KEY, { expiresIn: 86400 })
+				res.json({ success: true, token: token })
+			} catch(e) {
+				res.status(401).json({success: false, errors: e.messages})
+			}
+
 		} else {
 			res.json({success: false, message: messages.signin_error})
 		}
