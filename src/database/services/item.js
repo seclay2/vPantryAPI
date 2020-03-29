@@ -3,14 +3,20 @@
 const mongoose = require('mongoose')
 const Item = require('../models/item')
 
+async function deleteItems(){
+	return Item.deleteMany({})
+}
+
 async function createItem(item) {
     return Item.create(item)
 }
 
-async function deleteItemsFromGroup(groupId){
-	return Item.deleteMany({ groupId: mongoose.Types.ObjectId(groupId)})
+async function getItems() {
+    return Item.find({})
 }
-
+function deleteItemsFromGroup(groupId){
+	return Item.deleteMany({ groupId:mongoose.Types.ObjectId(groupId)})
+}
 async function getUserItems(id) {
     return Item.find(
         { userId: mongoose.Types.ObjectId(id) }
@@ -29,8 +35,8 @@ async function getItem(id) {
     )
 }
 
-async function deleteItem(id, callback) {
-    await Item.deleteOne(
+function deleteItem(id) {
+    return Item.deleteOne(
         { _id: mongoose.Types.ObjectId(id)}
     )
 }
@@ -48,16 +54,15 @@ function updateItem(updatedItem) {
             }
         }
     )
-}
-
+} 
 module.exports = {
+	deleteItems,
     createItem,
-	deleteItemsFromGroup,
     getItems,
+	deleteItemsFromGroup,
     getUserItems,
     getGroupItems,
     getItem,
     deleteItem,
-    updateItem,
-	deleteAll
+    updateItem
 }

@@ -18,7 +18,6 @@ router.get('/', async (req, res) => {
 router.delete('/', async (req, res) => {
 	var decoded = jwt.decode(req.headers.token)
 	var user = await UserService.getUser(decoded._id)
-	console.log("user = " + JSON.stringify(user))
 	for(var i = 0; i<user.userofgroups.length; i++)
 		await GroupService.removeUserFromGroup(decoded._id, user.userofgroups[i])
 	for(var i = 0; i<user.adminofgroups.length; i++)

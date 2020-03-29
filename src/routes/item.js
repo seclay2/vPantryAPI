@@ -36,10 +36,9 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-	console.log("group_id = " + req.query.group_id)
 	var items = await ItemService.getGroupItems(req.query.group_id)
 	var itemsRet = []
-	if(items.length){
+	if(items.length)
 		for(var i = 0; i<items.length; i++){
 			var user = await UserService.getUser(items[i].userId)
 			var item = {}
@@ -58,9 +57,8 @@ router.get('/', async (req, res) => {
 			item['createdAt'] = items[i].createdAt
 			item['updatedAt'] = items[i].updatedAt
 			itemsRet.push(item)
+			res.send({success:true, items:itemsRet})
 		}
-		res.send({success:true, items:itemsRet})
-	}
 	else
 		res.send({success:false, message : messages.no_items})
 })
