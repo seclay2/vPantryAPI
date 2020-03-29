@@ -7,8 +7,8 @@ async function createItem(item) {
     return Item.create(item)
 }
 
-async function getItems() {
-    return Item.find({})
+async function deleteItemsFromGroup(groupId){
+	return Item.deleteMany({ groupId: mongoose.Types.ObjectId(groupId)})
 }
 
 async function getUserItems(id) {
@@ -49,11 +49,10 @@ function updateItem(updatedItem) {
         }
     )
 }
-async function deleteAll(){
-	await Item.deleteMany({})
-}
+
 module.exports = {
     createItem,
+	deleteItemsFromGroup,
     getItems,
     getUserItems,
     getGroupItems,
