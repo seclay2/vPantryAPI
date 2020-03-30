@@ -11,14 +11,10 @@ async function createUser(user) {
 
 async function samePassword(id, enteredPassword, callback){
 	await User.findOne({_id:mongoose.Types.ObjectId(id)}, 'password', function(err, user){
-		console.log("entered password = " + enteredPassword)
 		bcrypt.compare(enteredPassword, user.password, function(err, isValid) {
-			console.log("user.password = " + user.password)
 			if(isValid){
-				console.log("returning true")
 				callback(true)
 			}else{
-				console.log("returning false")
 				callback(false)
 			}
 		})
@@ -143,13 +139,13 @@ function getUserEmail(id){
 function removeGroupFromUser(group_id, user_id){
 	return User.findOne(
 		{_id:mongoose.Types.ObjectId(user_id)}, function(err, user){
-			if(!err){
+			if(user){
 				var uindex = user.userofgroups.indexOf(group_id)
 				var aindex = user.adminofgroups.indexOf(group_id)
 				if(uindex > -1)
-					user.userofgroups = user.userofgroups.splice(uindex, 1)
+					user.userofgroups.splice(uindex, 1)
 				if(aindex > -1)
-					user.adminofgroups = user.adminofgroups.splice(aindex, 1)
+					user.adminofgroups.splice(aindex, 1)
 				user.save()
 				return user
 			}
@@ -157,6 +153,10 @@ function removeGroupFromUser(group_id, user_id){
 				return null
 		}
 	)
+}
+
+function getUsers(){
+	return User.find({})
 }
 
 module.exports = {
@@ -174,5 +174,6 @@ module.exports = {
 	setAsUser,
     updateUserDetails,
 	getUserEmail,
-	removeGroupFromUser
+	removeGroupFromUser,
+	getUsers
 }

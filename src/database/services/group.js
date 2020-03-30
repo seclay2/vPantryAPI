@@ -8,12 +8,6 @@ function createGroup(group, callback) {
 		callback(true, group.id)
 	})
 }
-async function deleteAll(){
-	await Group.deleteMany({})
-}
-async function getGroups() {
-    return Group.find({})
-}
 
 function getGroup(id) {
     return Group.findOne(
@@ -21,8 +15,8 @@ function getGroup(id) {
     )
 }
 
-async function deleteGroup(id) {
-    await Group.deleteOne(
+function deleteGroup(id) {
+    return Group.deleteOne(
         { _id: mongoose.Types.ObjectId(id) }
     )
 }
@@ -41,7 +35,7 @@ async function updateGroup(id, group) {
 
 function removeUserFromGroup(user_id, group_id){
 	return Group.findOne({_id:mongoose.Types.ObjectId(group_id)}, function(err, group){
-			if(!err){
+			if(group){
 				var uindex = group.users.indexOf(user_id)
 				var aindex = group.administrators.indexOf(user_id)
 				if(uindex > -1)
@@ -56,12 +50,40 @@ function removeUserFromGroup(user_id, group_id){
 		})
 }
 
+function updateGroupName(id, name){
+	Group.findOne({_id:mongoose.Types.ObjectId(id)}, function(err, group){
+		if(!err){
+			group.name = name
+			group.save()
+		}
+	})
+}
+
+function addAdmin(id, uId){
+	Group.findOne({_id:mongoose.Types.ObjectId(id)}, function(err, group){
+		if(!err){
+			group.administrators.push(uId)
+			group.save()
+		}
+	})
+}
+
+function addUser(id, uId){
+	Group.findOne({_id:mongoose.Types.ObjectId(id)}, function(err, group){
+		if(!err){
+			group.users.push(uId)
+			group.save()
+		}
+	})
+}
+
 module.exports = {
     createGroup,
-    getGroups,
     getGroup,
     deleteGroup,
     updateGroup,
-	deleteAll,
-	removeUserFromGroup
+	removeUserFromGroup,
+	updateGroupName,
+	addAdmin,
+	addUser
 }
